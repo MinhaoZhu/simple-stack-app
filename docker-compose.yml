@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.8"
 services:
   # Web service layer
   nginx:
@@ -16,34 +16,17 @@ services:
       restart_policy:
         condition: on-failure
 
-  # nginx:
-  #   # container_name: mynginx
-  #   # restart: always
-  #   ports:
-  #   # External Port:Internal Port
-  #     - "8000:80"
-  #   image: nginx
-  #   depends_on:
-  #     - php
-  #   volumes:
-  #     - ./src:/var/www/html
-  #     - ./src/nginx.ini:/etc/nginx/conf.d/default.conf
-
   # Application service layer
   php:
     image: uniquedockerenv/php-fpm-mysql-redis-image:v1
-    depends_on:
-    # Services Name(not container name)
-      - mysql
-      - redis
     volumes:
-      - ./src:/var/www/html
-    deploy:
-      mode: replicated
-      replicas: 2
-      restart_policy:
-        condition: on-failure
-
+      - "./app:/var/www/html"
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   restart_policy:
+    #     condition: on-failure
+  
   mysql:
     image: mariadb
     environment:
@@ -76,12 +59,12 @@ services:
       restart_policy:
         condition: on-failure
 
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
+  # visualizer:
+  #   image: dockersamples/visualizer:stable
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #   deploy:
+  #     placement:
+  #       constraints: [node.role == manager]

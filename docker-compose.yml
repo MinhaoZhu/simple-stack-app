@@ -18,7 +18,7 @@ services:
 
   # Application service layer
   php:
-    image: uniquedockerenv/php-fpm-mysql-redis-image:v1
+    image: uniquedockerenv/php-fpm-mysql-redis-image:v2
     volumes:
       - "./app:/var/www/html"
     deploy:

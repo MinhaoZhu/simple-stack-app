@@ -18,14 +18,18 @@ services:
 
   # Application service layer
   php:
-    image: robertoperuzzo/php-sqlserver
+    # Use this line if on server
+    image: uniquedockerenv/php-fpm-mysql-redis-image:amd64
+
+    # Use this line on local development
+    # image: uniquedockerenv/php-fpm-mysql-redis-image:v1
     volumes:
       - "./app:/var/www/html"
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   restart_policy:
-    #     condition: on-failure
+    deploy:
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
   
   mysql:
     image: mariadb
@@ -59,12 +63,13 @@ services:
       restart_policy:
         condition: on-failure
 
-  # visualizer:
-  #   image: dockersamples/visualizer:stable
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - "/var/run/docker.sock:/var/run/docker.sock"
-  #   deploy:
-  #     placement:
-  #       constraints: [node.role == manager]
+  # Uncomment the following when on server to view the manager/worker
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]

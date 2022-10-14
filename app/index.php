@@ -2,8 +2,8 @@
 echo "I am a PHP page running on Docker stack";
 // phpinfo();
 echo "<br>";
-$redis = new Redis();
-var_dump($redis);
+//$redis = new Redis();
+//var_dump($redis);
 echo "<br>";
 // $redis->connect('myredis', 6379);
 // echo "Connection to Redis server sucessfully!"; 

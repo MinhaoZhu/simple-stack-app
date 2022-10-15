@@ -13,7 +13,7 @@
 </head>
 <body>
     <h1>TEST</h1>
-    <div id="bg" style="width: 100vw; height: 500px; background: url(/assets/img/bg_2.jpg); background-size: 100% 100%;">BG</div>
+    <div id="bg">BG</div>
     <!-- The next line  will not work because only the assets path is added in the nginx-->
     <img src="bg.jpg">
 

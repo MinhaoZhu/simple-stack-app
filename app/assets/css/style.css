@@ -1,4 +1,7 @@
 #bg {
     color: red;
-    background: url("/app/assets/img/bg_2.jpg");
+    background: url("/assets/img/bg_2.jpg");
+    width: 100vw; 
+    height: 500px; 
+    background-size: 100% 100%;
 }

@@ -12,20 +12,20 @@ services:
       - php
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 4
       restart_policy:
         condition: on-failure
 
   # Application service layer
   php:
-    image: uniquedockerenv/php-fpm-mysql-redis-image:v1
+    image: customphp
     volumes:
       - "./app:/var/www/html"
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   restart_policy:
-    #     condition: on-failure
+    deploy:
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
   
   mysql:
     image: mariadb
@@ -36,7 +36,7 @@ services:
       MYSQL_PASSWORD: php
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 3
       labels: [MySQLDB]
       restart_policy:
         condition: on-failure
@@ -55,16 +55,18 @@ services:
     image: phpmyadmin
     environment: 
       PMA_HOST: mysql
-    deploy:
-      restart_policy:
-        condition: on-failure
+      #deploy:
+      #mode: replicated
+      #replicas: 2
+      #restart_policy:
+      #condition: on-failure
 
-  # visualizer:
-  #   image: dockersamples/visualizer:stable
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - "/var/run/docker.sock:/var/run/docker.sock"
-  #   deploy:
-  #     placement:
-  #       constraints: [node.role == manager]
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]

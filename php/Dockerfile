@@ -1,4 +1,4 @@
-FROM php:fpm
+FROM php:7.4-fpm
 
 RUN pecl install igbinary \
 	&& pecl install redis \

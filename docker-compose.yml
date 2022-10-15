@@ -19,6 +19,11 @@ services:
   # Application service layer
   php:
     image: customphp
+    # Use this line if on server
+    # image: uniquedockerenv/php-fpm-mysql-redis-image:amd64
+
+    # Use this line on local development
+    # image: uniquedockerenv/php-fpm-mysql-redis-image:v1
     volumes:
       - "./app:/var/www/html"
     deploy:
@@ -61,6 +66,7 @@ services:
       #restart_policy:
       #condition: on-failure
 
+  # Uncomment the following when on server to view the manager/worker
   visualizer:
     image: dockersamples/visualizer:stable
     ports:

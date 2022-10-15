@@ -19,10 +19,10 @@ services:
   # Application service layer
   php:
     # Use this line if on server
-    image: uniquedockerenv/php-fpm-mysql-redis-image:amd64
+    # image: uniquedockerenv/php-fpm-mysql-redis-image:amd64
 
     # Use this line on local development
-    # image: uniquedockerenv/php-fpm-mysql-redis-image:v1
+    image: uniquedockerenv/php-fpm-mysql-redis-image:v1
     volumes:
       - "./app:/var/www/html"
     deploy:

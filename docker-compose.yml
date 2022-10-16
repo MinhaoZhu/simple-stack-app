@@ -18,7 +18,7 @@ services:
 
   # Application service layer
   php:
-    image: customphp
+    image: myphpimage
     # Use this line if on server
     # image: uniquedockerenv/php-fpm-mysql-redis-image:amd64
 
@@ -41,7 +41,7 @@ services:
       MYSQL_PASSWORD: php
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
       labels: [MySQLDB]
       restart_policy:
         condition: on-failure

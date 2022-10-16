@@ -1,4 +1,11 @@
 version: "3.8"
+volumes:
+  data:
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./data"
+
 services:
   # Web service layer
   nginx:
@@ -18,12 +25,12 @@ services:
 
   # Application service layer
   php:
-    image: myphpimage
+    # image: myphpimage
     # Use this line if on server
     # image: uniquedockerenv/php-fpm-mysql-redis-image:amd64
 
     # Use this line on local development
-    # image: uniquedockerenv/php-fpm-mysql-redis-image:v1
+    image: uniquedockerenv/php-fpm-mysql-redis-image:v1
     volumes:
       - "./app:/var/www/html"
     deploy:
@@ -39,9 +46,31 @@ services:
       MYSQL_DATABASE: cloud_computing 
       MYSQL_USER: php
       MYSQL_PASSWORD: php
+    volumes:
+    #   - ./data/etc/localtime:/etc/localtime:ro
+      - ./data:/var/lib/mysql
     deploy:
       mode: replicated
       replicas: 1
+      labels: [MySQLDB]
+      restart_policy:
+        condition: on-failure
+
+  mysql-backup:
+    image: mariadb
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: MyDBRoot123
+      MYSQL_DATABASE: cloud_computing 
+      MYSQL_USER: php
+      MYSQL_PASSWORD: php
+    volumes:
+    #   - ./data/etc/localtime:/etc/localtime:ro
+      - ./data:/var/lib/mysql
+    deploy:
+      mode: replicated
+      replicas: 3
       labels: [MySQLDB]
       restart_policy:
         condition: on-failure
@@ -58,6 +87,8 @@ services:
     ports:
       - "8082:80"
     image: phpmyadmin
+    depends_on:
+      - mysql
     environment: 
       PMA_HOST: mysql
       #deploy:
